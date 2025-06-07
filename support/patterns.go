@@ -66,7 +66,7 @@ var PluginsPatterns = map[string]string{
 	"WPSuperCache": `(?i)(wpsc_|wp-super-cache|data-wpsc-|class=["'][^"']*wpsc[^"']*["'])`,
 	"AllinOneSEO": `(?i)(aioseo-|data-aioseo-|class=["'][^"']*aioseo[^"']*["'])`,
 	"MonsterInsights": `(?i)(monsterinsights-|data-monsterinsights-|class=["'][^"']*monsterinsights[^"']*["'])`,
-	"ShortcodesUltimate": `(?i)(su-|data-su-|class=["'][^"']*su[^"']*["'])`,
+	"Shortcodes Ultimate": `(?i)(su-|data-su-|class=["'][^"']*su[^"']*["'])`,
 	"WPMailSMTP": `(?i)(wp-mail-smtp|data-wp-mail-smtp|class=["'][^"']*wp-mail-smtp[^"']*["'])`,
 	"EasyDigitalDownloads": `(?i)(edd-|data-edd-|class=["'][^"']*edd[^"']*["'])`,
 	"Redirection": `(?i)(redirection-|data-redirection-|class=["'][^"']*redirection[^"']*["'])`,
@@ -108,7 +108,7 @@ var PluginsPatterns = map[string]string{
 }
 
 
-var WPFirewallPatterns = map[string]string{
+var WAFPatterns = map[string]string{
     "Cloudflare": `(?i)(cdn-cgi|cloudflare-|data-cloudflare-|class=["'][^"']*cloudflare[^"']*["'])`,
     "Wordfence": `(?i)(wordfence-|wf-|data-wordfence-|class=["'][^"']*wordfence[^"']*["'])`,
     "Sucuri": `(?i)(sucuri-|data-sucuri-|class=["'][^"']*sucuri[^"']*["'])`,

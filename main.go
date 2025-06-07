@@ -6,42 +6,10 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"time"
+	"go-eve/utils"
 	"go-eve/support"
 )
 
-// FUNCAO REQUISICAO
-func request(url string, method string, params string, headers map[string]string, timeout int) (bool, *http.Response, error) {
-	
-	var body io.Reader
-	
-	if params != "" {
-		body = strings.NewReader(params)
-	}
-	
-	r, err := http.NewRequest(method, url, body)
-	if err != nil {
-		log.Println("Erro ao criar requisição:", err)
-		return false, nil, err
-	}
-	
-	// Aplica configuracao de headers
-	for k, v := range headers {
-		r.Header.Set(k, v)
-	}
-	
-	client := &http.Client {
-		Timeout: time.Duration(timeout) * time.Second,
-	}
-	
-	resp, err := client.Do(r)
-	if err != nil {
-		log.Println("Erro ao enviar requisição:", err)
-		return false, nil, err
-	}
-	
-	return true, resp, nil
-}
 
 // FUNCAO LER O CONTEUDO DO HEADERS
 
@@ -67,7 +35,7 @@ func main() {
 	}
 	timeout := 10
 
-	status, resp, err := request(url, method, params, headers, timeout)
+	status, resp, err := utils.Request(url, method, params, headers, timeout)
 	if !status {
 		log.Printf("Erro na requisição: %v\n", err)
 		return
@@ -89,28 +57,21 @@ func main() {
 		fmt.Printf("%s : %s\n", k, v)
 	}
 	
-	fmt.Printf("\nBODY:\n")
+	// fmt.Printf("\nBODY:\n") DEBUG
 	fmt.Println()
 	body, _ := io.ReadAll(resp.Body)
 	html := string(body)
 	
 	
 	techs := support.Crawler(html)
-	fmt.Println(techs)
-}	
-	
-	
-	// POST
-	// data := bytes.NewBufferString(`{"name":"Copilot","age":1}`)
-	
-	// HEADERS
-	// headers := map[string]string{
-	// 	"User-Agent": "MeuApp/1.0",
-	//	"Authorization": "Bearer TOKEN_AQUI",
-	// }
-
-	// UTEIS
-	// resp.status
-	// resp.URL
-	// resp.Method
-	// resp.Header
+	for _, tech := range techs {
+		fmt.Printf("\n %s \n", tech)
+		fmt.Println("-----------------------")
+		cves := support.SearchExploit(tech, 5)
+		for _, cve := range cves {
+			fmt.Printf("CVE: %s\n", cve[0])
+			fmt.Printf("LINK: %s\n", cve[2])
+			fmt.Printf("DESCRIÇÃO:\n%s\n\n", cve[1])
+		}
+	}
+}
